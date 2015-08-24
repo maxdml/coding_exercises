@@ -18,42 +18,14 @@ object Kosaraju {
   var scc_map: mutable.HashMap[Int,mutable.Buffer[Int]] = mutable.HashMap[Int,mutable.Buffer[Int]]()
 
   def main (args: Array[String]) {
-    if (args.length != 1) {
-      println(usage)
-      return
+    val edges = loadEdges(args) match {
+      case None    => return 
+      case Some(e) => e
     }
-    val filename = args.toList(0)
-    val edges: mutable.Buffer[Array[Int]] = 
-      Source.fromFile(filename).getLines().map(_.split(" ").map(_.toInt)).toBuffer
-
-    //edges.foreach(e => println(e(0).toString + ' ' + e(1).toString))
-
-    var double_adj_list: mutable.HashMap[Int, mutable.Buffer[mutable.Buffer[Int]]] =
-      mutable.HashMap[Int,mutable.Buffer[mutable.Buffer[Int]]]()
-
-    println("Building double adjacency list....")
-
-    edges.foreach { e =>
-      if (! double_adj_list.contains(e(0))) {
-        double_adj_list +=
-          (e(0) -> mutable.Buffer[mutable.Buffer[Int]](mutable.Buffer[Int](e(1)),
-                                                       mutable.Buffer[Int]()))
-      } else {
-        double_adj_list(e(0))(0).append(e(1))
-      }
-
-      if (! double_adj_list.contains(e(1))) {
-        double_adj_list +=
-          (e(1) -> mutable.Buffer[mutable.Buffer[Int]](mutable.Buffer[Int](),
-                                                       mutable.Buffer[Int](e(0))))
-      } else {
-        double_adj_list(e(1))(1).append(e(0))
-      }
-    }
-
-    println("...Done")
 
     println("First round of DFS....")
+
+    val double_adj_list = buildDoubleAdjacencyList(edges)
 
     (1 to double_adj_list.keys.size).reverse.foreach ( e =>
       if (! explored_list.contains(e)) {
@@ -102,5 +74,44 @@ object Kosaraju {
       t += 1
       finish_list += (t -> node)
     }
+  }
+
+  def loadEdges(args: Array[String]): Option[mutable.Buffer[Array[Int]]] = {
+    if (args.length == 1) {
+      val filename = args.toList(0)
+      Some(Source.fromFile(filename).getLines().map(_.split(" ").map(_.toInt)).toBuffer)
+    } else {
+      println(usage)
+      None
+    }
+  }
+
+  def buildDoubleAdjacencyList(edges: mutable.Buffer[Array[Int]]):
+    mutable.HashMap[Int, mutable.Buffer[mutable.Buffer[Int]]] = {
+      println("Building double adjacency list....")
+     
+     var double_adj_list: mutable.HashMap[Int, mutable.Buffer[mutable.Buffer[Int]]] =
+       mutable.HashMap[Int,mutable.Buffer[mutable.Buffer[Int]]]()
+
+      edges.foreach { e =>
+        if (! double_adj_list.contains(e(0))) {
+          double_adj_list +=
+            e(0) -> mutable.Buffer[mutable.Buffer[Int]](mutable.Buffer[Int](e(1)),
+                                                        mutable.Buffer[Int]())
+        } else {
+          double_adj_list(e(0))(0).append(e(1))
+        }
+
+        if (! double_adj_list.contains(e(1))) {
+          double_adj_list +=
+            (e(1) -> mutable.Buffer[mutable.Buffer[Int]](mutable.Buffer[Int](),
+                                                         mutable.Buffer[Int](e(0))))
+        } else {
+          double_adj_list(e(1))(1).append(e(0))
+        }
+      }
+
+      println("...Done")
+      double_adj_list
   }
 }
