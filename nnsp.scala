@@ -16,25 +16,34 @@ object Nnsp {
     assert(p04 == 6)
     println("P04: length(List(1, 1, 2, 3, 5, 8)) => " + p04)
 
-    val p05 = isPalindrome(List(1, 2, 3, 2, 1))
-    assert(p05 == true)
-    println("P05: isPalindrome(List(1, 2, 3, 2, 1) => true")
+    val p05 = reverse(List(1, 1, 2, 3, 5, 8))
+    assert(p05 == List(8, 5, 3, 2, 1, 1)) 
+    println("P05: reverse(List(1, 1, 2, 3, 5, 8)) ==  List(8, 5, 3, 2, 1, 1)")
 
-    val p06 = flatten(List(List(1, 1), 2, List(3, List(5, 8))))
-    assert(p06 == List(1, 1, 2, 3, 5, 8))
-    println("P06: flatten(List(List(1, 1), 2, List(3, List(5, 8)))) => (1, 1, 2, 3, 5, 8)") 
+    val p06 = isPalindrome(List(1, 2, 3, 2, 1))
+    assert(p06 == true)
+    println("P06: isPalindrome(List(1, 2, 3, 2, 1) => true")
 
-    val p07 = compress(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e))
-    assert(p07 ==  List('a, 'b, 'c, 'a, 'd, 'e))
-    println("P07: compress(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)) =  List('a, 'b, 'c, 'a, 'd, 'e)") 
+    val p07 = flatten(List(List(1, 1), 2, List(3, List(5, 8))))
+    assert(p07 == List(1, 1, 2, 3, 5, 8))
+    println("P07: flatten(List(List(1, 1), 2, List(3, List(5, 8)))) => (1, 1, 2, 3, 5, 8)") 
+
+    val p08 = compress(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e))
+    assert(p08 ==  List('a, 'b, 'c, 'a, 'd, 'e))
+    println("P08: compress(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)) =  List('a, 'b, 'c, 'a, 'd, 'e)") 
     
-    val p08 = pack(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e))
-    assert(p08 == List(List('a, 'a, 'a, 'a), List('b), List('c, 'c), List('a, 'a), List('d), List('e, 'e, 'e, 'e)))
-    println("P08: pack(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)) == List(List('a, 'a, 'a, 'a), List('b), List('c, 'c), List('a, 'a), List('d), List('e, 'e, 'e, 'e)))")
+    val p09 = pack(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e))
+    assert(p09 == List(List('a, 'a, 'a, 'a), List('b), List('c, 'c), List('a, 'a), List('d), List('e, 'e, 'e, 'e)))
+    println("P09: pack(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)) == List(List('a, 'a, 'a, 'a), List('b), List('c, 'c), List('a, 'a), List('d), List('e, 'e, 'e, 'e)))")
     
-    val p09 = encode(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e))
-    assert(p09 == List((4,'a), (1,'b), (2,'c), (2,'a), (1,'d), (4,'e)))
-    println("P08: pack(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)) == List((4,'a), (1,'b), (2,'c), (2,'a), (1,'d), (4,'e))")
+    val p10 = encode(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e))
+    assert(p10 == List((4,'a), (1,'b), (2,'c), (2,'a), (1,'d), (4,'e)))
+    println("P10: pack(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)) == List((4,'a), (1,'b), (2,'c), (2,'a), (1,'d), (4,'e))")
+
+    val p11 = encodeModified(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e))
+    assert(p11 == List((4,'a), 'b, (2,'c), (2,'a), 'd, (4,'e)))
+    println("P11: pack(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)) == List((4,'a), 'b, (2,'c), (2,'a), 'd, (4,'e))")
+
   }
 
     /* 
@@ -110,7 +119,7 @@ object Nnsp {
       if (list.length == 1) {
         true
       } else {
-        if (list.head == list.last) {
+        if (list.head == last(list)) {
           isPalindrome(list.init.tail)
         } else {
           false
@@ -202,6 +211,27 @@ object Nnsp {
 
     def encode(list: List[Any]): List[Tuple2[Int, Any]] = {
       val packed = pack(list)
-      packed map { l => (l.length, l.head) }
+      packed map ( l => (l.length, l.head) )
     }
+
+    /* P11 (*) Modified run-length encoding.
+    * Modify the result of problem P10 in such a way that if an element has no duplicates it is simply copied into the result list. Only elements with duplicates are transferred as (N, E) terms.
+    * Example:
+    * scala> encodeModified(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e))
+    * res0: List[Any] = List((4,'a), 'b, (2,'c), (2,'a), 'd, (4,'e))
+    */
+
+    def encodeModified(list: List[Any]): List[Any] = {
+      val packed = pack(list)
+      packed map (l => if (l.length > 1) { (l.length, l.head) }
+                        else { l.head })
+    }
+
+    /* Decode a run-length encoded list.
+    * Given a run-length code list generated as specified in problem P10, construct its uncompressed version.
+    * Example:
+    * scala> decode(List((4, 'a), (1, 'b), (2, 'c), (2, 'a), (1, 'd), (4, 'e)))
+    * res0: List[Symbol] = List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)
+    */
+
 }
